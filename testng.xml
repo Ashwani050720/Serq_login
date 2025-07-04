@@ -1,0 +1,18 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Dynamic Login Suite" parallel="false">
+
+    <!-- Run user login test (a1 URL + userData.json) -->
+    <test name="User Login Test">
+        <classes>
+            <class name="com.example.tests.UserLoginTest"/>
+        </classes>
+    </test>
+
+    <!-- Run provider login test (a2 URL + providerData.json) -->
+    <test name="Provider Login Test">
+        <classes>
+            <class name="com.example.tests.ProviderLoginTest"/>
+        </classes>
+    </test>
+
+</suite>

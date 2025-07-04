@@ -1,38 +1,64 @@
 package com.example.tests;
 
-import org.example.utils.ConfigReader;
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+
 import org.example.utils.DriverFactory;
-import org.openqa.selenium.JavascriptExecutor;
+import org.example.utils.ExtentReportManager;
+import org.example.utils.ScreenshotUtil;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
+import org.testng.ITestResult;
+import org.testng.annotations.*;
 
-import java.time.Duration;
-import java.util.Properties;
+import java.lang.reflect.Method;
 
-public class BaseTest
-{
+public class BaseTest {
     protected WebDriver driver;
+    protected static ExtentReports extent;
+    protected static ThreadLocal<ExtentTest> test = new ThreadLocal<>();
+
+    @BeforeSuite
+    public void startReport() {
+        extent = ExtentReportManager.getInstance();
+    }
+
+    @AfterSuite
+    public void flushReport() {
+        extent.flush();
+    }
 
     @BeforeMethod
-    public void setup() {
+    public void setUpTest(Method method) {
         driver = DriverFactory.initDriver();
-        driver.manage().window().maximize();
-        driver.get("https://user.serq.in/auth");
-
-        new WebDriverWait(driver, Duration.ofSeconds(15)).until(
-                webDriver -> ((JavascriptExecutor) webDriver)
-                        .executeScript("return document.readyState").equals("complete")
-        );
-        // Replace with your login URL
+        ExtentTest extentTest = extent.createTest(method.getName());
+        test.set(extentTest);
     }
 
     @AfterMethod
-    public void tearDown() {
+    public void tearDown(ITestResult result) {
+        if (result.getStatus() == ITestResult.FAILURE) {
+            test.get().fail(result.getThrowable());
+
+            // 📸 Capture and attach screenshot
+            String screenshotPath = ScreenshotUtil.takeScreenshot(driver, result.getName());
+            try {
+                test.get().addScreenCaptureFromPath(screenshotPath);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        } else if (result.getStatus() == ITestResult.SUCCESS) {
+            test.get().pass("Test Passed");
+        } else {
+            test.get().skip("Test Skipped");
+        }
+
         if (driver != null) {
-     //       driver.quit();
+            driver.quit();
         }
     }
 
+    public ExtentTest getTest() {
+        return test.get();
+    }
 }

@@ -29,6 +29,6 @@ public static WebDriver initDriver() {
     options.addArguments("--window-size=1920,1080");  // Set window size
     options.addArguments("--no-sandbox");             // Required for some environments
     options.addArguments("--disable-dev-shm-usage");
-    return new ChromeDriver(options);
+    return new ChromeDriver();
 }
 }
