@@ -4,7 +4,7 @@
 ```markdown
 # 🔐 SERQ Login Automation (Selenium + TestNG + Maven)
 
-This project automates login test scenarios for the [SERQ platform](https://user.serq.in/) using **Selenium WebDriver**, **TestNG**, and **Maven** with dynamic data and ExtentReports integration.
+This project automates login test scenarios for the [SERQ platform](https://user.serq.in/) https://provider.serq.in/auth using **Selenium WebDriver**, **TestNG**, and **Maven** with dynamic data and ExtentReports integration.
 
 ---
 
@@ -38,7 +38,7 @@ This project automates login test scenarios for the [SERQ platform](https://user
 
 ## 📂 Folder Structure
 
-```
+
 
 Serq\_login/
 ├── src/
@@ -65,7 +65,7 @@ Serq\_login/
 ├── pom.xml
 └── README.md
 
-````
+
 
 ---
 
@@ -149,10 +149,5 @@ Feel free to fork and submit PRs. For improvements or issues, raise a GitHub Iss
 
 Test credentials used here are for automation demo purposes only and should not be used for production environments.
 
-```
-
----
-
-Let me know if you want this customized with your actual GitHub repo URL, or would like the `.md` file exported for direct use.
 ```
 
